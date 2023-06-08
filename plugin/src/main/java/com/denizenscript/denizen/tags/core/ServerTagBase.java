@@ -1049,6 +1049,53 @@ public class ServerTagBase {
             }
             event.setReplacedObject(new ElementTag(ench.enchantment.getStartLevel()).getObjectAttribute(attribute.fulfill(1)));
         }
+        
+        // <--[tag]
+        // @attribute <server.enchantment_is_treasure[<enchantment>]>
+        // @returns ElementTag(Boolean)
+        // @description
+        // Checks if this enchantment is a treasure enchantment.
+        // Treasure enchantments can only be received via looting, trading, or fishing.
+        // -->
+        if (attribute.startsWith("enchantment_is_treasure") && attribute.hasContext(1)) {
+            Enchantment ench = Utilities.getEnchantmentByName(attribute.getContext(1));
+            if (ench == null) {
+                attribute.echoError("Enchantment '" + attribute.getContext(1) + "' does not exist.");
+                return;
+            }
+            event.setReplacedObject(new ElementTag(ench.isTreasure()).getObjectAttribute(attribute.fulfill(1)));
+        }
+
+        // <--[tag]
+        // @attribute <server.enchantment_is_cursed[<enchantment>]>
+        // @returns ElementTag(Boolean)
+        // @description
+        // Checks if this enchantment is a cursed enchantment.
+        // Cursed enchantments are found the same way treasure enchantments are, but can not be removed from an item.
+        // -->
+        if (attribute.startsWith("enchantment_is_cursed") && attribute.hasContext(1)) {
+            Enchantment ench = Utilities.getEnchantmentByName(attribute.getContext(1));
+            if (ench == null) {
+                attribute.echoError("Enchantment '" + attribute.getContext(1) + "' does not exist.");
+                return;
+            }
+            event.setReplacedObject(new ElementTag(ench.isCursed()).getObjectAttribute(attribute.fulfill(1)));
+        }
+
+        // <--[tag]
+        // @attribute <server.enchantments_full_name[<enchantment>]>
+        // @returns ElementTag
+        // @description
+        // Returns the enchantments full name, the one that is displayed in item lore.
+        // -->
+        if (attribute.startsWith("enchantments_full_name") && attribute.hasContext(1)) {
+            Enchantment ench = Utilities.getEnchantmentByName(attribute.getContext(1));
+            if (ench == null) {
+                attribute.echoError("Enchantment '" + attribute.getContext(1) + "' does not exist.");
+                return;
+            }
+            event.setReplacedObject(new ElementTag(ench.getName()).getObjectAttribute(attribute.fulfill(1)));
+        }
 
         // <--[tag]
         // @attribute <server.started_time>
